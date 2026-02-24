@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Store | Free Shipping Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #121212;
+      --accent: #3498db;
+      --success: #2ecc71;
+      --bg: #f8f9fa;
+      --white: #ffffff;
+      --text: #2c3e50;
+      --text-muted: #7f8c8d;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ================= PROMO BAR ================= */
+    .promo-container {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .promo-bar {
+      width: 100%;
+      height: 64px;
+      color: var(--white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .promo-content {
+      text-align: center;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+
+    .promo-content strong {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--accent), var(--success));
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .close-promo {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 1.5rem;
+      padding: 5px;
+      transition: var(--transition);
+      line-height: 0.8;
+    }
+
+    .close-promo:hover {
+      color: var(--white);
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ================= STOREFRONT ================= */
+    header {
+      text-align: center;
+      padding: 80px 20px;
+      background: var(--white);
+      margin-bottom: 50px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .store-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      padding: 0 20px 80px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image-dummy {
+      height: 240px;
+      background: #fdfdfd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+    }
+
+    .product-image-dummy::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(46, 204, 113, 0.05) 100%);
+    }
+
+    .product-info {
+      padding: 30px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .product-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .product-price {
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .btn-add {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-add:hover {
+      background: #222;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-add:active {
+      transform: scale(0.96);
+    }
+
+    .footer-controls {
+      text-align: center;
+      padding: 40px 0 100px;
+    }
+
+    .btn-clear {
+      background: transparent;
+      border: 2px solid #e74c3c;
+      color: #e74c3c;
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-clear:hover {
+      background: #e74c3c;
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .cart-status {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: var(--white);
+      padding: 16px 32px;
+      border-radius: 50px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+      font-weight: 600;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .cart-status span#cartTotalDisplay {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    /* Success Animation */
+    @keyframes highlight {
+      0% {
+        transform: translate(-50%, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(-50%, -10px) scale(1.05);
+      }
+
+      100% {
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+
+    .animate-pop {
+      animation: highlight 0.4s ease-out;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .promo-content {
+        font-size: 0.8rem;
+        padding-right: 30px;
+      }
+
+      .cart-status {
+        width: 90%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= PROMO BAR ================= -->
+  <div class="promo-container" id="promoContainer">
+    <div class="promo-bar">
+      <div class="promo-content" id="promoText">
+        You are <strong>$100</strong> away from Free Shipping!
+      </div>
+      <button class="close-promo" id="closePromo" aria-label="Close promotion">&times;</button>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <!-- ================= STOREFRONT ================= -->
+  <header>
+    <h1>Modern Essentials</h1>
+    <p>Experience the future of seamless shopping simulations.</p>
+  </header>
+
+  <div class="store-grid">
+    <!-- Product 1 -->
+    <div class="product-card">
+      <div class="product-image-dummy">⌚</div>
+      <div class="product-info">
+        <h2 class="product-title">Steel Chronograph</h2>
+        <div class="product-price">$30</div>
+        <button class="btn-add" data-price="30">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <div class="product-image-dummy">🎧</div>
+      <div class="product-info">
+        <h2 class="product-title">ANC Headphones</h2>
+        <div class="product-price">$50</div>
+        <button class="btn-add" data-price="50">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <div class="product-image-dummy">👜</div>
+      <div class="product-info">
+        <h2 class="product-title">Leather Weekender</h2>
+        <div class="product-price">$80</div>
+        <button class="btn-add" data-price="80">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-controls">
+    <button class="btn-clear" id="clearCart">Clear Cart</button>
+  </div>
+
+  <div class="cart-status" id="cartStatus">
+    Cart Total: <span id="cartTotalDisplay">$0</span>
+  </div>
+
+  <script>
+    // State Management
+    let cartTotal = 0;
+    const FREE_SHIPPING_THRESHOLD = 100;
+
+    // DOM Elements
+    const promoText = document.getElementById('promoText');
+    const progressBar = document.getElementById('progressBar');
+    const promoContainer = document.getElementById('promoContainer');
+    const cartTotalDisplay = document.getElementById('cartTotalDisplay');
+    const cartStatus = document.getElementById('cartStatus');
+    const closePromoBtn = document.getElementById('closePromo');
+    const clearCartBtn = document.getElementById('clearCart');
+    const addBtns = document.querySelectorAll('.btn-add');
+
+    /**
+     * Updates all UI elements based on the current cartTotal
+     */
+    function updateUI() {
+      // Update Text & Progress Bar
+      if (cartTotal < FREE_SHIPPING_THRESHOLD) {
+        const remaining = FREE_SHIPPING_THRESHOLD - cartTotal;
+        promoText.innerHTML = `You are <strong>$${remaining}</strong> away from Free Shipping!`;
+
+        const percentage = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
+        progressBar.style.width = `${percentage}%`;
+        progressBar.style.background = 'linear-gradient(to right, #3498db, #2ecc71)';
+      } else {
+        promoText.innerHTML = "<strong>Congratulations!</strong> You've unlocked Free Shipping!";
+        progressBar.style.width = '100%';
+        progressBar.style.background = '#2ecc71';
+      }
+
+      // Update Total Display
+      cartTotalDisplay.textContent = `$${cartTotal}`;
+
+      // Animation for the cart status bubble
+      cartStatus.classList.remove('animate-pop');
+      void cartStatus.offsetWidth; // Trigger reflow
+      cartStatus.classList.add('animate-pop');
+    }
+
+    // Initialize App
+    function init() {
+      // Check localStorage for bar hidden state
+      const isHidden = localStorage.getItem('promo_hidden');
+      if (isHidden === 'true') {
+        promoContainer.classList.add('hidden');
+      }
+
+      // Item Buttons
+      addBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const price = parseInt(btn.getAttribute('data-price'));
+          cartTotal += price;
+          updateUI();
+        });
+      });
+
+      // Clear Cart
+      clearCartBtn.addEventListener('click', () => {
+        cartTotal = 0;
+        updateUI();
+      });
+
+      // Close Bar
+      closePromoBtn.addEventListener('click', () => {
+        // Smooth exit animation
+        promoContainer.style.transition = 'all 0.4s ease-in-out';
+        promoContainer.style.opacity = '0';
+        promoContainer.style.transform = 'translateY(-100%)';
+
+        setTimeout(() => {
+          promoContainer.classList.add('hidden');
+          localStorage.setItem('promo_hidden', 'true');
+        }, 400);
+      });
+
+      // Initial UI Update
+      updateUI();
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+
+</html>
